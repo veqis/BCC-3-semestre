@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 typedef struct arv{
-  char info[50];
+  int info;
   struct arv *dir;
   struct arv *esq;
 }Arv;
