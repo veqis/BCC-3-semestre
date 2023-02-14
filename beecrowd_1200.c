@@ -2,12 +2,12 @@
 #include <stdlib.h>
 
 typedef struct arv{
-  char info;
+  char info[50];
   struct arv *dir;
   struct arv *esq;
 }Arv;
 
-Arv *ins_abb(char c[], Arv*raiz)
+Arv *ins_abb(char c, Arv*raiz)
 {
   if(raiz == NULL)
   {
@@ -68,7 +68,7 @@ void impr_pos(Arv * a)//posfixa
 
 int main()
 {
-  char in[100];
+  char in[50];
   char infix[] = "INFIXA";
   Arv*root=NULL;
 
@@ -76,13 +76,13 @@ int main()
   {
     if (in[0]=='I' && in[1]==' ')
     {
-      root=ins_abb(in,root);
+      root=ins_abb(in[2],root);
     }
     else if (in[0]=='P' && in[1]==' ')
     {
       //rodar código de busca
     }
-    else if (0==strcmp(in,infix))
+    else if (strcmp(in,infix)==0)
     {
       impr_ord(root);
     }
