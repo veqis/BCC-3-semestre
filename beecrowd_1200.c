@@ -68,7 +68,7 @@ int main()
 
     while (scanf(" %[^\n]", &in) != EOF)
     {
-        strcat(I,)
+      
     }
     
     
