@@ -39,7 +39,7 @@ Arv *remover(Arv*raiz)
   return raiz;
 }
 
-void impr_pre(Arv * a)//prefxa
+void impr_pre(Arv * a)//posfixa
 {
   if (a!=NULL) {
     printf(" %c",a->info);   //raiz
@@ -57,7 +57,7 @@ void impr_ord(Arv * a)//infixa
   }
 }
 
-void impr_pos(Arv * a)//posfixa
+void impr_pos(Arv * a)//prefxa
 {
   if (a!=NULL) {
     impr_pos(a->esq);         //sub esq
@@ -70,6 +70,8 @@ int main()
 {
   char in[50];
   char infix[] = "INFIXA";
+  char prefix[] = "PREFIXA";
+  char posfix[] = "POSFIXA";
   Arv*root=NULL;
 
   while (scanf(" %[^\n]", &in) != EOF)
@@ -86,6 +88,14 @@ int main()
     {
       impr_ord(root);
     }
+    else if (strcmp(in,posfix))
+    {
+      impr_pre(root);
+    }
+    else if (strcmp(in,prefix))
+    {
+      impr_pos(root);
+    } 
   }
     return 0;
 }
