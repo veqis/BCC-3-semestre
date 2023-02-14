@@ -66,40 +66,39 @@ void impr_pos(Arv * a)//posfixa
 void impr_ord(Arv * a)//infixa
 {
   if (a!=NULL) {
+    impr_ord(a->esq);         //sub esq
     if (first==true)
     {
-      impr_ord(a->esq);         //sub esq
       printf("%c",a->info );   //raiz
-      impr_ord(a->dir);         //sub dir
       first = false;
     }
     else
     {
-      impr_ord(a->esq);         //sub esq
       printf(" %c",a->info );   //raiz
-      impr_ord(a->dir);         //sub dir
     }
+    impr_ord(a->dir);         //sub dir
   }
 }
 
-void impr_pre(Arv * a)//prefixa
+void impr_pre(Arv *a)//prefixa
 {
-  if (a!=NULL) {
-    if (first==true)
+  if (a != NULL)
+  {
+    if (first == true)
     {
-      impr_pre(a->esq);         //sub esq
-      impr_pre(a->dir);         //sub dir
       first = false;
-      printf("%c",a->info );   //raiz
+      printf("%c", a->info); //raiz
     }
     else
     {
-      impr_pre(a->esq);         //sub esq
-      impr_pre(a->dir);         //sub dir
-      printf(" %c",a->info );   //raiz
+      printf(" %c", a->info); //raiz
     }
+    impr_pre(a->esq); //sub esq
+    impr_pre(a->dir); //sub dir
   }
 }
+
+
 
 int main()
 {
