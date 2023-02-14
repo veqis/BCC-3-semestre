@@ -2,12 +2,12 @@
 #include <stdlib.h>
 
 typedef struct arv{
-  int info;
+  char info;
   struct arv *dir;
   struct arv *esq;
 }Arv;
 
-Arv *ins_abb(int c, Arv*raiz)
+Arv *ins_abb(char c[], Arv*raiz)
 {
   if(raiz == NULL)
   {
@@ -39,58 +39,52 @@ Arv *remover(Arv*raiz)
   return raiz;
 }
 
-void impr_pre(Arv * a)
+void impr_pre(Arv * a)//prefxa
 {
   if (a!=NULL) {
-    printf(" %d",a->info);   //raiz
+    printf(" %c",a->info);   //raiz
     impr_pre(a->esq);         //sub esq
     impr_pre(a->dir);         //sub dir
   }
 }
 
-void impr_ord(Arv * a)
+void impr_ord(Arv * a)//infixa
 {
   if (a!=NULL) {
     impr_ord(a->esq);         //sub esq
-    printf(" %d",a->info );   //raiz
+    printf(" %c",a->info );   //raiz
     impr_ord(a->dir);         //sub dir
   }
 }
 
-void impr_pos(Arv * a)
+void impr_pos(Arv * a)//posfixa
 {
   if (a!=NULL) {
     impr_pos(a->esq);         //sub esq
     impr_pos(a->dir);         //sub dir
-    printf(" %d",a->info );   //raiz
+    printf(" %c",a->info );   //raiz
   }
 }
 
 int main()
 {
   char in[100];
+  char infix[] = "INFIXA";
+  Arv*root=NULL;
 
   while (scanf(" %[^\n]", &in) != EOF)
   {
     if (in[0]=='I' && in[1]==' ')
     {
-      //rodar código de entrada
+      root=ins_abb(in,root);
     }
     else if (in[0]=='P' && in[1]==' ')
     {
       //rodar código de busca
     }
-    else if (in=="INFIXA")
+    else if (0==strcmp(in,infix))
     {
-      /* code */
-    }
-    else if (in=="PREFIXA")
-    {
-      /* code */
-    }
-    else if (in=="POSFIXA")
-    {
-      /* code */
+      impr_ord(root);
     }
   }
     return 0;
