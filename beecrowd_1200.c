@@ -46,18 +46,16 @@ void impr_pos(Arv * a)//posfixa
 {
   if (a!=NULL) 
   {
+    impr_pos(a->esq);  // sub esq
+    impr_pos(a->dir);  // sub dir
     if (first==true)
     {
       first = false;
       printf("%c",a->info);   //raiz
-      impr_pos(a->esq);         //sub esq
-      impr_pos(a->dir);         //sub dir
     }
     else
     {
       printf(" %c",a->info);   //raiz
-      impr_pos(a->esq);         //sub esq
-      impr_pos(a->dir);         //sub dir
     }
     
   }
