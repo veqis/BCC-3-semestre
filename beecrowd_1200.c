@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+bool first = true;
 
 typedef struct arv{
   int info;
@@ -39,30 +42,62 @@ Arv *remover(Arv*raiz)
   return raiz;
 }
 
-void impr_pre(Arv * a)//posfixa
+void impr_pos(Arv * a)//posfixa
 {
-  if (a!=NULL) {
-    printf(" %c",a->info);   //raiz
-    impr_pre(a->esq);         //sub esq
-    impr_pre(a->dir);         //sub dir
+  if (a!=NULL) 
+  {
+    if (first==true)
+    {
+      first = false;
+      printf("%c",a->info);   //raiz
+      impr_pos(a->esq);         //sub esq
+      impr_pos(a->dir);         //sub dir
+    }
+    else
+    {
+      printf(" %c",a->info);   //raiz
+      impr_pos(a->esq);         //sub esq
+      impr_pos(a->dir);         //sub dir
+    }
+    
   }
 }
 
 void impr_ord(Arv * a)//infixa
 {
   if (a!=NULL) {
-    impr_ord(a->esq);         //sub esq
-    printf(" %c",a->info );   //raiz
-    impr_ord(a->dir);         //sub dir
+    if (first==true)
+    {
+      impr_ord(a->esq);         //sub esq
+      printf("%c",a->info );   //raiz
+      impr_ord(a->dir);         //sub dir
+      first = false;
+    }
+    else
+    {
+      impr_ord(a->esq);         //sub esq
+      printf(" %c",a->info );   //raiz
+      impr_ord(a->dir);         //sub dir
+    }
   }
 }
 
-void impr_pos(Arv * a)//prefxa
+void impr_pre(Arv * a)//prefixa
 {
   if (a!=NULL) {
-    impr_pos(a->esq);         //sub esq
-    impr_pos(a->dir);         //sub dir
-    printf(" %c",a->info );   //raiz
+    if (first==true)
+    {
+      impr_pre(a->esq);         //sub esq
+      impr_pre(a->dir);         //sub dir
+      first = false;
+      printf("%c",a->info );   //raiz
+    }
+    else
+    {
+      impr_pre(a->esq);         //sub esq
+      impr_pre(a->dir);         //sub dir
+      printf(" %c",a->info );   //raiz
+    }
   }
 }
 
@@ -87,15 +122,19 @@ int main()
     else if (strcmp(in,infix)==0)
     {
       impr_ord(root);
+      printf("\n");
     }
-    else if (strcmp(in,posfix))
-    {
-      impr_pre(root);
-    }
-    else if (strcmp(in,prefix))
+    else if (strcmp(in,posfix)==0)
     {
       impr_pos(root);
+      printf("\n");
+    }
+    else if (strcmp(in,prefix)==0)
+    {
+      impr_pre(root);
+      printf("\n");
     } 
+    first = true;
   }
     return 0;
 }
