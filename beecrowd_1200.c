@@ -96,8 +96,6 @@ void impr_pre(Arv *a)//prefixa
   }
 }
 
-
-
 int main()
 {
   char in[50];
