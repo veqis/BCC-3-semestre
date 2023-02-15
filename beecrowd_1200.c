@@ -19,9 +19,9 @@ Arv *ins_abb(char c, Arv*raiz)
     n->dir = n->esq = NULL;
     return n;
   }
-  else if (c < raiz->info) //anda a esquerda
+  else if (c < raiz->info)            //anda a esquerda
     raiz->esq = ins_abb(c,raiz->esq);
-  else //anda a direita
+  else                                //anda a direita
     raiz->dir = ins_abb(c,raiz->dir);
  
    return raiz;
@@ -46,16 +46,16 @@ void impr_pos(Arv * a)//posfixa
 {
   if (a!=NULL) 
   {
-    impr_pos(a->esq);  // sub esq
-    impr_pos(a->dir);  // sub dir
+    impr_pos(a->esq);
+    impr_pos(a->dir); 
     if (first==true)
     {
       first = false;
-      printf("%c",a->info);   //raiz
+      printf("%c",a->info);
     }
     else
     {
-      printf(" %c",a->info);   //raiz
+      printf(" %c",a->info);
     }
     
   }
@@ -64,17 +64,17 @@ void impr_pos(Arv * a)//posfixa
 void impr_ord(Arv * a)//infixa
 {
   if (a!=NULL) {
-    impr_ord(a->esq);         //sub esq
+    impr_ord(a->esq);
     if (first==true)
     {
-      printf("%c",a->info );   //raiz
+      printf("%c",a->info );
       first = false;
     }
     else
     {
-      printf(" %c",a->info );   //raiz
+      printf(" %c",a->info );
     }
-    impr_ord(a->dir);         //sub dir
+    impr_ord(a->dir);
   }
 }
 
@@ -85,14 +85,14 @@ void impr_pre(Arv *a)//prefixa
     if (first == true)
     {
       first = false;
-      printf("%c", a->info); //raiz
+      printf("%c", a->info);
     }
     else
     {
-      printf(" %c", a->info); //raiz
+      printf(" %c", a->info);
     }
-    impr_pre(a->esq); //sub esq
-    impr_pre(a->dir); //sub dir
+    impr_pre(a->esq);
+    impr_pre(a->dir);
   }
 }
 
