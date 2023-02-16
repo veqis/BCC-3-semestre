@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-//arvore tipo int
+//arvore tipo int mofiicar caso queira usar caracteres
 typedef struct arv{
   int info;
   struct arv *dir;
@@ -136,6 +136,29 @@ Arv *remover_simples(Arv*raiz)
     return NULL;
 
   return raiz;
+}
+
+//busca pela informação inserida ----modificar caso queira caracteres ou valores numericos
+Arv *busca(char *c, Arv*raiz)
+{
+  if (raiz == NULL)
+  {
+    printf("%s nao existe\n",c);
+    return NULL;
+  }
+  if (strcmp(c,raiz->info)==0) // encontrou o nó desejado
+  {
+    raiz->val++; // atualiza o valor numerico
+    return raiz;
+  }
+  if (strcmp(c,raiz->info) < 0) // a string buscada é menor que a string do nó atual
+  {
+    return busca(c,raiz->esq); // navega para o filho esquerdo
+  }
+  else // a string buscada é maior que a string do nó atual
+  {
+    return busca(c,raiz->dir); // navega para o filho direito
+  }
 }
 
 //funções de impressçao para casos gerais
