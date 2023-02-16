@@ -129,7 +129,6 @@ int main()
       vit = root;
     }
     impr_ord(root);
-    //printf("%d\n", no->val); 
   }
 
   return 0;
