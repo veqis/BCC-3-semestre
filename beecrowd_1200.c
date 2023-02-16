@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 bool first = true;
 
 typedef struct arv{
-  int info;
+  char info;
   struct arv *dir;
   struct arv *esq;
 }Arv;
@@ -19,7 +20,7 @@ Arv *ins_abb(char c, Arv*raiz)
     n->dir = n->esq = NULL;
     return n;
   }
-  else if (c < raiz->info)            //anda a esquerda
+  if (c < raiz->info)            //anda a esquerda
     raiz->esq = ins_abb(c,raiz->esq);
   else                                //anda a direita
     raiz->dir = ins_abb(c,raiz->dir);
@@ -27,19 +28,27 @@ Arv *ins_abb(char c, Arv*raiz)
    return raiz;
 }
 
-Arv *remover(Arv*raiz)
+Arv *busca(char c, Arv*raiz)
 {
-  if (raiz)   
+  if (raiz == NULL)
   {
-      raiz->esq = remover(raiz->esq);
-      raiz->dir = remover(raiz->dir);
-      free(raiz);
-      raiz=NULL;
-  }
-  else
+    printf("%c nao existe\n",c);
     return NULL;
-
-  return raiz;
+  }
+  if (raiz->info == c)
+  {
+    printf("%c existe\n",c);
+    return 0;
+  }
+  if (raiz->info > c) //navega para a esquerda
+  {
+    return busca(c,raiz->esq);
+  }
+  if (raiz->info < c) //navega para a direita
+  {
+    return busca(c,raiz->dir);
+  }
+  return 0;
 }
 
 void impr_pos(Arv * a)//posfixa
@@ -104,27 +113,27 @@ int main()
   char posfix[] = "POSFIXA";
   Arv*root=NULL;
 
-  while (scanf(" %[^\n]", &in) != EOF)
+  while (scanf(" %[^\n]", in) != EOF)
   {
     if (in[0]=='I' && in[1]==' ')
     {
       root=ins_abb(in[2],root);
     }
-    else if (in[0]=='P' && in[1]==' ')
+    if (in[0]=='P' && in[1]==' ')
     {
-      //rodar código de busca
+      busca(in[2],root);
     }
-    else if (strcmp(in,infix)==0)
+    if (strcmp(in,infix)==0)
     {
       impr_ord(root);
       printf("\n");
     }
-    else if (strcmp(in,posfix)==0)
+    if (strcmp(in,posfix)==0)
     {
       impr_pos(root);
       printf("\n");
     }
-    else if (strcmp(in,prefix)==0)
+    if (strcmp(in,prefix)==0)
     {
       impr_pre(root);
       printf("\n");
