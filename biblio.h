@@ -62,27 +62,71 @@ Arv *remover(int c, Arv*raiz){
   return raiz;
 }
 
-
-void impr_pre(Arv * a){
-  if (a!=NULL) {
-    printf("%d ",a->info);   //raiz
-    impr_pre(a->esq);         //sub esq
-    impr_pre(a->dir);         //sub dir
+void impr_pos(Arv * a)//posfixa
+{
+  if (a!=NULL) 
+  {
+    impr_pos(a->esq);
+    impr_pos(a->dir); 
+    if (first==true)
+    {
+      first = false;
+      printf("%c",a->info);
+    }
+    else
+    {
+      printf(" %c",a->info);
+    }
+    
   }
 }
 
-void impr_ord(Arv * a){
+void impr_ord(Arv * a)//infixa
+{
   if (a!=NULL) {
-    impr_ord(a->esq);         //sub esq
-    printf("%d ",a->info );   //raiz
-    impr_ord(a->dir);         //sub dir
+    impr_ord(a->esq);
+    if (first==true)
+    {
+      printf("%c",a->info );
+      first = false;
+    }
+    else
+    {
+      printf(" %c",a->info );
+    }
+    impr_ord(a->dir);
   }
 }
 
-void impr_pos(Arv * a){
-  if (a!=NULL) {
-    impr_pos(a->esq);         //sub esq
-    impr_pos(a->dir);         //sub dir
-    printf("%d ",a->info );   //raiz
+void impr_pre(Arv *a)//prefixa
+{
+  if (a != NULL)
+  {
+    if (first == true)
+    {
+      first = false;
+      printf("%c", a->info);
+    }
+    else
+    {
+      printf(" %c", a->info);
+    }
+    impr_pre(a->esq);
+    impr_pre(a->dir);
   }
+}
+
+Arv *remover_simples(Arv*raiz)
+{
+  if (raiz)   
+  {
+      raiz->esq = remover(raiz->esq);
+      raiz->dir = remover(raiz->dir);
+      free(raiz);
+      raiz=NULL;
+  }
+  else
+    return NULL;
+
+  return raiz;
 }
