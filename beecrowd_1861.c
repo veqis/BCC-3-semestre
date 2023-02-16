@@ -120,16 +120,13 @@ int main()
     if (no == NULL) 
     {
       root = insert(assas, val, root);
-      no = root;
     }
     Arv* vit = busca(vitma, root);
     if (vit != NULL)
     {
       root = remove_no(vitma, root);
-      vit = root;
     }
     impr_ord(root);
   }
-
   return 0;
 }
