@@ -10,8 +10,10 @@ typedef struct arv{
 }Arv;
 
 //inserir arvore
-Arv *ins_abb(int c, Arv*raiz){
-  if(raiz == NULL){
+Arv *ins_abb(int c, Arv*raiz)
+{
+  if(raiz == NULL)
+  {
     Arv*n=(Arv*)malloc(sizeof(Arv));
     n->info = c;
     n->dir = n->esq = NULL;
@@ -127,14 +129,12 @@ Arv *remover_simples(Arv*raiz)
 {
   if (raiz)   
   {
-      raiz->esq = remover(raiz->esq);
-      raiz->dir = remover(raiz->dir);
-      free(raiz);
-      raiz=NULL;
-  }
-  else
+    raiz->esq = remover(raiz->esq);
+    raiz->dir = remover(raiz->dir);
+    free(raiz);
+    raiz=NULL;
+  }else
     return NULL;
-
   return raiz;
 }
 
