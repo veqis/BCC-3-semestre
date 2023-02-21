@@ -6,23 +6,31 @@ bool first = true;
 
 typedef struct arv{
     int info;
+    int nivel;
     struct arv *dir;
     struct arv *esq;
 }Arv;
 
-Arv *insert(int c, Arv*raiz)
+Arv *insert(int c, int niv, Arv*raiz)
 {
     if (raiz==NULL)
     {
         Arv*novo=(Arv*)malloc(sizeof(Arv));
         novo->info = c;
+        novo->nivel = niv;
         novo->dir = novo->esq = NULL;
         return novo;
     }else
         if(c < raiz->info)
-            raiz->esq = insert(c,raiz->esq);
+        {
+            niv++;
+            raiz->esq = insert(c,niv,raiz->esq);
+        }
         else
-            raiz->dir = insert(c,raiz->dir);
+        {
+            niv++;
+            raiz->dir = insert(c,niv,raiz->dir);
+        }
     return raiz;
 }
 
@@ -45,12 +53,12 @@ void impr_ord(Arv * a)
     impr_ord(a->esq);
     if (first==true)
     {
-      printf("%d",a->info );
+      printf("%d->%d",a->info, a->nivel );
       first = false;
     }
     else
     {
-      printf(" %d",a->info );
+      printf(" %d->%d",a->info, a->nivel );
     }
     impr_ord(a->dir);
   }
@@ -67,7 +75,7 @@ int main()
         for (int b = 0; b < qtd; b++)
         {
             scanf("%d",&in);
-            root = insert(in,root);
+            root = insert(in,0,root);
         }
         impr_ord(root);
         printf("\n");
