@@ -89,9 +89,8 @@ int main()
             scanf("%d",&in);
             root = insert(in,0,root);
         }
-        //impr_ord(root);
+        impr_ord(root,,runs,tam(root,0));
         printf("\n");
-        printf("%d",tam(root,0));
         root = remover(root);
         first = true;
     }
