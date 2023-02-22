@@ -49,19 +49,31 @@ Arv *remover(Arv*raiz)
 
 void impr_ord(Arv * a)
 {
-  if (a!=NULL) {
+  if (a) {
     impr_ord(a->esq);
     if (first==true)
     {
-      printf("%d->%d",a->info, a->nivel );
+      printf("%d",a->info );
       first = false;
     }
     else
     {
-      printf(" %d->%d",a->info, a->nivel );
+      printf(" %d",a->info);
     }
     impr_ord(a->dir);
   }
+}
+
+int tam(Arv* a, int t)
+{
+    if (a)
+    {
+        int tam_esq = tam(a->esq, t + 1);
+        int tam_dir = tam(a->dir, t + 1);
+        return (tam_esq > tam_dir) ? tam_esq : tam_dir;
+    }
+    else
+        return t - 1;
 }
 
 int main()
@@ -77,8 +89,9 @@ int main()
             scanf("%d",&in);
             root = insert(in,0,root);
         }
-        impr_ord(root);
+        //impr_ord(root);
         printf("\n");
+        printf("%d",tam(root,0));
         root = remover(root);
         first = true;
     }
