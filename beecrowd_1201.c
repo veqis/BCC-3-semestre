@@ -106,8 +106,8 @@ void impr_pre(Arv *a)
 }
 
 Arv* remove_no(int c, Arv *raiz) {
-    if (raiz == NULL) { // Árvore vazia
-        printf("Valor nao encontrado\n");
+    if (raiz == NULL) 
+    {
         return NULL;
     }
 
