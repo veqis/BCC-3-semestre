@@ -157,19 +157,22 @@ int main()
   char posfix[] = "POSFIXA";
   Arv*root=NULL;
 
-  while (scanf("%s %d", in, &num) != EOF)
+  while (scanf("%s", in) != EOF)
   {
     if (strcmp(in,i)==0)
     {
+      scanf("%d",&num);
       root=ins_abb(num,root);
     }
     if (strcmp(in,p)==0)
     {
+      scanf("%d",&num);
       busca(num,root);
     }
     if (strcmp(in,r)==0)
     {
-        remove_no(num,root);
+      scanf("%d",&num);
+      remove_no(num,root);
     }
     if (strcmp(in,infix)==0)
     {
