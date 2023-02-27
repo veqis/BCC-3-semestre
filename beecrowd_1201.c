@@ -11,7 +11,7 @@ typedef struct arv{
   struct arv *esq;
 }Arv;
 
-Arv *ins_abb(char c, Arv*raiz)
+Arv *ins_abb(int c, Arv*raiz)
 {
   if(raiz == NULL)
   {
@@ -28,16 +28,16 @@ Arv *ins_abb(char c, Arv*raiz)
    return raiz;
 }
 
-Arv *busca(char c, Arv*raiz)
+Arv *busca(int c, Arv*raiz)
 {
   if (raiz == NULL)
   {
-    printf("%c nao existe\n",c);
+    printf("%d nao existe\n",c);
     return NULL;
   }
   if (raiz->info == c)
   {
-    printf("%c existe\n",c);
+    printf("%d existe\n",c);
     return 0;
   }
   if (raiz->info > c)
@@ -48,7 +48,7 @@ Arv *busca(char c, Arv*raiz)
   {
     return busca(c,raiz->dir);
   }
-  return 0;
+  return NULL;
 }
 
 void impr_pos(Arv * a)
@@ -60,11 +60,11 @@ void impr_pos(Arv * a)
     if (first==true)
     {
       first = false;
-      printf("%c",a->info);
+      printf("%d",a->info);
     }
     else
     {
-      printf(" %c",a->info);
+      printf(" %d",a->info);
     }
     
   }
@@ -76,12 +76,12 @@ void impr_ord(Arv * a)
     impr_ord(a->esq);
     if (first==true)
     {
-      printf("%c",a->info );
+      printf("%d",a->info );
       first = false;
     }
     else
     {
-      printf(" %c",a->info );
+      printf(" %d",a->info );
     }
     impr_ord(a->dir);
   }
@@ -94,18 +94,18 @@ void impr_pre(Arv *a)
     if (first == true)
     {
       first = false;
-      printf("%c", a->info);
+      printf("%d", a->info);
     }
     else
     {
-      printf(" %c", a->info);
+      printf(" %d", a->info);
     }
     impr_pre(a->esq);
     impr_pre(a->dir);
   }
 }
 
-Arv* remove_no(char c, Arv *raiz) {
+Arv* remove_no(int c, Arv *raiz) {
     if (raiz == NULL) { // Árvore vazia
         printf("Valor nao encontrado\n");
         return NULL;
@@ -147,25 +147,32 @@ Arv* remove_no(char c, Arv *raiz) {
 
 int main()
 {
-  char in[1000000];
+  char in[100];
+  int num;
+  char i[] = "I";
+  char p[] = "P";
+  char r[] = "R";
   char infix[] = "INFIXA";
   char prefix[] = "PREFIXA";
   char posfix[] = "POSFIXA";
   Arv*root=NULL;
 
-  while (scanf(" %[^\n]", in) != EOF)
+  while (scanf("%s", in) != EOF)
   {
-    if (in[0]=='I' && in[1]==' ')
+    if (strcmp(in,i)==0)
     {
-      root=ins_abb(in[2],root);
+      scanf("%d",&num);
+      root=ins_abb(num,root);
     }
-    if (in[0]=='P' && in[1]==' ')
+    if (strcmp(in,p)==0)
     {
-      busca(in[2],root);
+      scanf("%d",&num);
+      busca(num,root);
     }
-    if (in[0]=='R' && in[1]==' ')
+    if (strcmp(in,r)==0)
     {
-        remove_no(in[2],root);
+      scanf("%d",&num);
+      remove_no(num,root);
     }
     if (strcmp(in,infix)==0)
     {
