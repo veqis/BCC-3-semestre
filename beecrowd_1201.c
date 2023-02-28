@@ -144,6 +144,7 @@ Arv* remove_no(int c, Arv *raiz) {
     }
 }
 
+
 int main()
 {
   char in[100];
@@ -170,8 +171,8 @@ int main()
     }
     if (strcmp(in,r)==0)
     {
-        scanf("%d",&num);
-        root = remove_no(num,root);
+      scanf("%d",&num);
+      root=remove_no(num,root);
     }
     if (strcmp(in,infix)==0)
     {
