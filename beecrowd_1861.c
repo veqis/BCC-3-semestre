@@ -50,7 +50,7 @@ Mort *insert_mortos(char *c, Mort* raiz)
   return raiz;
 }
 
-void impr_ord(Arv * a)//infixa
+void impr_ord(Arv * a)
 {
   if (a!=NULL) {
     impr_ord(a->esq);
@@ -160,23 +160,23 @@ int main()
   printf("HALL OF MURDERERS\n");
   while (scanf("%s %s", assas, vitma) != EOF)
   {
-    Arv* matou = busca(assas, root);    //busca se assas já existe na arvore
     Mort* morreu = buscaM(vitma,mortos);//verifica se a vitma ja existe na arvore
-    Mort* verif = buscaM(assas, mortos);//verifica se o ass está na arovore dos mortos
-    Arv* vit = busca(vitma, root);      
-
     if (morreu == NULL)
     {
       mortos = insert_mortos(vitma,mortos);
     }
+
+    Mort* verif = buscaM(assas, mortos);//verifica se o ass está na arovore dos mortos
     if (verif == NULL) 
     {
+      Arv* matou = busca(assas, root);    //busca se assas já existe na arvore
       if (matou==NULL)
       {
         root = insert(assas, val, root);
       }
     }
 
+    Arv* vit = busca(vitma, root); 
     if (vit != NULL)
     {
       root = remove_no(vitma, root);
