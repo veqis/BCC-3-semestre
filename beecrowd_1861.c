@@ -27,9 +27,12 @@ Arv *insert(char *c, int val, Arv* raiz)
     return novo;
   }
   if (strcmp(c,raiz->info)< 0)
+  {
     raiz->esq = insert(c, val, raiz->esq);
-  else
+  }else
+  {
     raiz->dir = insert(c, val, raiz->dir);
+  }
    return raiz;
 }
 
@@ -44,15 +47,19 @@ Mort *insert_mortos(char *c, Mort* raiz)
     return novo;
   }
   if(strcmp(c,raiz->info) < 0)
+  {
     raiz->esq = insert_mortos(c, raiz->esq);
-  else
+  }else
+  {
     raiz->dir = insert_mortos(c, raiz->dir);
+  }
   return raiz;
 }
 
 void impr_ord(Arv * a)
 {
-  if (a!=NULL) {
+  if (a!=NULL) 
+  {
     impr_ord(a->esq);
     printf("%s %d\n",a->info,a->val);
     impr_ord(a->dir);
@@ -105,46 +112,39 @@ Arv *remove_no(char *c, Arv* raiz)
   if (raiz == NULL) 
   {
     return NULL;
-  }
-  if (strcmp(c, raiz->info) < 0) 
+  }else if (strcmp(c, raiz->info) < 0) 
   {
     raiz->esq = remove_no(c, raiz->esq);
-  }
-  if (strcmp(c, raiz->info) > 0) 
+  }else if (strcmp(c, raiz->info) > 0) 
   {
     raiz->dir = remove_no(c, raiz->dir);
   } 
-  else 
-  { 
-    if (raiz->esq == NULL && raiz->dir == NULL)
-    {
-      free(raiz->info);
-      free(raiz);
-      return NULL;
+  else{               //se chegou aqui, encontrou o elemento
+  if (raiz->esq == NULL && raiz->dir == NULL) { //nó sem filhos
+    free (raiz);
+    raiz = NULL;
     }
-    if (raiz->esq == NULL) 
-    {
-      Arv *temp = raiz->dir;
-      free(raiz->info);
-      free(raiz);
-      return temp;
+  else
+  if (raiz->esq == NULL) {//apenas filho a direita
+    Arv*aux = raiz;
+    raiz = raiz->dir;
+    free (aux);
     }
-    if (raiz->dir == NULL) 
-    {
-      Arv *temp = raiz->esq;
-      free(raiz->info);
-      free(raiz);
-      return temp;
+  else
+  if (raiz->dir == NULL) { //apenas filho a esquerda
+    Arv*aux = raiz;
+    raiz = raiz->esq;
+    free (aux);
+  }
+  else{ //se chegou aqui, tem dois filhos
+    Arv*aux = raiz->esq; //desce um nível a esquerda
+    while (aux->dir != NULL) {  //busca último elemento a direita
+      aux = aux->dir;
     }
-    Arv *temp = raiz->dir;
-    while (temp && temp->esq != NULL) 
-    {
-      temp = temp->esq;
+    raiz->info = aux->info; //troca as informações
+    aux->info = c;
+    raiz->esq = remove_no(c,raiz->esq);//remove c, a partir da esquerda da raiz original
     }
-    raiz->val = temp->val;
-    free(raiz->info);
-    raiz->info = strdup(temp->info);
-    raiz->dir = remove_no(temp->info, raiz->dir);
   }
   return raiz;
 }
