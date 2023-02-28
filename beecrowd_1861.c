@@ -163,7 +163,7 @@ int main()
     Arv* matou = busca(assas, root);    //busca se assas já existe na arvore
     Mort* morreu = buscaM(vitma,mortos);//verifica se a vitma ja existe na arvore
     Mort* verif = buscaM(assas, mortos);//verifica se o ass está na arovore dos mortos
-    Arv* vit = busca(vitma, root);      //
+    Arv* vit = busca(vitma, root);      
 
     if (morreu == NULL)
     {
