@@ -115,56 +115,34 @@ Arv* remove_no(int c, Arv *raiz) {
     {
         raiz->esq = remove_no(c, raiz->esq);
         return raiz;
-    } 
-    else if (c > raiz->info) 
+    } else if (c > raiz->info) 
     { 
         raiz->dir = remove_no(c, raiz->dir);
         return raiz;
-    } 
-    else 
+    } else 
     {
         if (raiz->esq == NULL && raiz->dir == NULL) 
         { 
             free(raiz);
             return NULL;
-        } 
-        else if (raiz->esq == NULL || raiz->dir == NULL) 
+        } else if (raiz->esq == NULL || raiz->dir == NULL) 
         { 
             Arv *temp = raiz->esq ? raiz->esq : raiz->dir;
             free(raiz);
             return temp;
-        } 
-        else 
-        {
-            // Tratamento especial para a remoção da raiz
-            if (raiz->esq == NULL && raiz->dir == NULL) {
-                free(raiz);
-                return NULL;
-            } 
-            else if (raiz->esq == NULL) {
-                Arv *temp = raiz->dir;
-                free(raiz);
-                return temp;
-            } 
-            else if (raiz->dir == NULL) {
-                Arv *temp = raiz->esq;
-                free(raiz);
-                return temp;
-            } 
-            else {
-                Arv *sucessor = raiz->dir;
-                while (sucessor->esq != NULL) 
-                { 
-                    sucessor = sucessor->esq;
-                }
-                raiz->info = sucessor->info;
-                raiz->dir = remove_no(sucessor->info, raiz->dir);
-                return raiz;
+        } else 
+        { 
+            Arv *sucessor = raiz->dir;
+            while (sucessor->esq != NULL) 
+            { 
+                sucessor = sucessor->esq;
             }
+            raiz->info = sucessor->info;
+            raiz->dir = remove_no(sucessor->info, raiz->dir);
+            return raiz;
         }
     }
 }
-
 
 
 int main()
@@ -194,7 +172,7 @@ int main()
     if (strcmp(in,r)==0)
     {
       scanf("%d",&num);
-      remove_no(num,root);
+      root=remove_no(num,root);
     }
     if (strcmp(in,infix)==0)
     {
