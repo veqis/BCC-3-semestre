@@ -1,195 +1,171 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
-bool first = true;
+typedef struct assasinos{
+  char *info;
+  int val;
+  struct assasinos *dir;
+  struct assasinos *esq;
+}Ass;
 
-typedef struct arv{
-  char info;
-  struct arv *dir;
-  struct arv *esq;
-}Arv;
+typedef struct morte{
+  char *info;
+  struct morte *dir;
+  struct morte *esq;
+}Morte;
 
-Arv *ins_abb(int c, Arv*raiz)
+Ass *insert_ass(char *c, int val, Ass* raiz)
 {
   if(raiz == NULL)
   {
-    Arv*n=(Arv*)malloc(sizeof(Arv));
-    n->info = c;
-    n->dir = n->esq = NULL;
-    return n;
+    Ass*novo=(Ass*)malloc(sizeof(Ass));
+    novo->info = (char*) malloc((strlen(c)+1) * sizeof(char));
+    strcpy(novo->info,c);
+    novo->val = val;
+    novo->dir = novo->esq = NULL;
+    return novo;
   }
-  if (c < raiz->info) 
-    raiz->esq = ins_abb(c,raiz->esq);
-  else    
-    raiz->dir = ins_abb(c,raiz->dir);
- 
+  if (strcmp(c,raiz->info) < 0)
+    raiz->esq = insert_ass(c, val, raiz->esq);
+  else
+    raiz->dir = insert_ass(c, val, raiz->dir);
    return raiz;
 }
 
-Arv *busca(int c, Arv*raiz)
+Morte *insert_mortos(char *c, Morte* raiz)
+{
+  if(raiz == NULL)
+  {
+    Morte*novo=(Morte*)malloc(sizeof(Morte));
+    novo->info = (char*)malloc((strlen(c)+1)*sizeof(char));
+    strcpy(novo->info,c);
+    novo->dir = novo->esq = NULL;
+    return novo;
+  }
+  if(strcmp(c,raiz->info) < 0)
+    raiz->esq = insert_mortos(c, raiz->esq);
+  else
+    raiz->dir = insert_mortos(c, raiz->dir);
+  return raiz;
+}
+
+Ass *busca_ass(char *c, Ass*raiz)
 {
   if (raiz == NULL)
   {
-    printf("%d nao existe\n",c);
     return NULL;
   }
-  if (raiz->info == c)
+  if (strcmp(c,raiz->info)==0)
   {
-    printf("%d existe\n",c);
-    return 0;
+    raiz->val++;
+    return raiz;
   }
-  if (raiz->info > c)
-  {
-    return busca(c,raiz->esq);
-  }
-  if (raiz->info < c) 
-  {
-    return busca(c,raiz->dir);
-  }
-  return NULL;
+  if (strcmp(c,raiz->info) < 0)
+    return busca_ass(c,raiz->esq);
+  else
+    return busca_ass(c,raiz->dir);
 }
 
-void impr_pos(Arv * a)
+Morte *busca_mort(char *c, Morte *raiz)
 {
-  if (a!=NULL) 
+  if (raiz == NULL)
   {
-    impr_pos(a->esq);
-    impr_pos(a->dir); 
-    if (first==true)
-    {
-      first = false;
-      printf("%d",a->info);
-    }
-    else
-    {
-      printf(" %d",a->info);
-    }
-    
+    return NULL;
   }
+  if (strcmp(c,raiz->info))
+    return raiz;
+  if(strcmp(c,raiz->info) < 0)
+    return busca_mort(c, raiz->esq);
+  else
+    return busca_mort(c, raiz->dir);
 }
 
-void impr_ord(Arv * a)
+void impr_ord(Ass * a)//infixa
 {
   if (a!=NULL) {
     impr_ord(a->esq);
-    if (first==true)
-    {
-      printf("%d",a->info );
-      first = false;
-    }
-    else
-    {
-      printf(" %d",a->info );
-    }
+    printf("%s %d\n",a->info,a->val);
     impr_ord(a->dir);
   }
 }
 
-void impr_pre(Arv *a)
+Ass *remove_no(char *c, Ass* raiz)
 {
-  if (a != NULL)
+  if (raiz == NULL) 
   {
-    if (first == true)
-    {
-      first = false;
-      printf("%d", a->info);
-    }
-    else
-    {
-      printf(" %d", a->info);
-    }
-    impr_pre(a->esq);
-    impr_pre(a->dir);
+    return NULL;
   }
-}
-
-Arv* remove_no(int c, Arv *raiz) {
-    if (raiz == NULL) 
+  if (strcmp(c, raiz->info) < 0) 
+  {
+    raiz->esq = remove_no(c, raiz->esq);
+  }
+  if (strcmp(c, raiz->info) > 0) 
+  {
+    raiz->dir = remove_no(c, raiz->dir);
+  } 
+  else 
+  { 
+    if (raiz->esq == NULL && raiz->dir == NULL)
     {
-        return NULL;
+      free(raiz->info);
+      free(raiz);
+      return NULL;
     }
-
-    if (c < raiz->info) 
+    if (raiz->esq == NULL) 
     {
-        raiz->esq = remove_no(c, raiz->esq);
-        return raiz;
-    } else if (c > raiz->info) 
-    { 
-        raiz->dir = remove_no(c, raiz->dir);
-        return raiz;
-    } else 
-    {
-        if (raiz->esq == NULL && raiz->dir == NULL) 
-        { 
-            free(raiz);
-            return NULL;
-        } else if (raiz->esq == NULL || raiz->dir == NULL) 
-        { 
-            Arv *temp = raiz->esq ? raiz->esq : raiz->dir;
-            free(raiz);
-            return temp;
-        } else 
-        { 
-            Arv *sucessor = raiz->dir;
-            while (sucessor->esq != NULL) 
-            { 
-                sucessor = sucessor->esq;
-            }
-            raiz->info = sucessor->info;
-            raiz->dir = remove_no(sucessor->info, raiz->dir);
-            return raiz;
-        }
+      Ass *temp = raiz->dir;
+      free(raiz->info);
+      free(raiz);
+      return temp;
     }
+    if (raiz->dir == NULL) 
+    {
+      Ass *temp = raiz->esq;
+      free(raiz->info);
+      free(raiz);
+      return temp;
+    }
+    Ass *temp = raiz->dir;
+    while (temp && temp->esq != NULL) 
+    {
+      temp = temp->esq;
+    }
+    raiz->val = temp->val;
+    free(raiz->info);
+    raiz->info = strdup(temp->info);
+    raiz->dir = remove_no(temp->info, raiz->dir);
+  }
+  return raiz;
 }
-
 
 int main()
 {
-  char in[100];
-  int num;
-  char i[] = "I";
-  char p[] = "P";
-  char r[] = "R";
-  char infix[] = "INFIXA";
-  char prefix[] = "PREFIXA";
-  char posfix[] = "POSFIXA";
-  Arv*root=NULL;
+  char assas[100];
+  char vitma[100];
+  Ass* matou = NULL;
+  Morte* mortos = NULL;
+  int val = 1;
 
-  while (scanf("%s", in) != EOF)
+  printf("HALL OF MURDERERS\n");
+  while (scanf("%s %s", assas, vitma) != EOF)
   {
-    if (strcmp(in,i)==0)
+    Morte* a = busca_mort(vitma,mortos);
+    Morte* b = busca_mort(assas,mortos);
+    Ass* c = busca_ass(assas,matou);
+    
+    if (a==NULL)//busca se nome da vitma já existe, se n add
     {
-      scanf("%d",&num);
-      root=ins_abb(num,root);
+      insert_mortos(vitma,mortos);
     }
-    if (strcmp(in,p)==0)
+    if (b==NULL)//mesma coisa da anterior mas para assasino
     {
-      scanf("%d",&num);
-      busca(num,root);
+      if (c==NULL)
+      {
+        insert_ass(assas,val,matou);
+      }  
     }
-    if (strcmp(in,r)==0)
-    {
-      scanf("%d",&num);
-      root=remove_no(num,root);
-    }
-    if (strcmp(in,infix)==0)
-    {
-      impr_ord(root);
-      printf("\n");
-    }
-    if (strcmp(in,posfix)==0)
-    {
-      impr_pos(root);
-      printf("\n");
-    }
-    if (strcmp(in,prefix)==0)
-    {
-      impr_pre(root);
-      printf("\n");
-    } 
-    first = true;
   }
-    return 0;
+  impr_ord(matou);
+  return 0;
 }
