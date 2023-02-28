@@ -9,6 +9,12 @@ typedef struct arv{
   struct arv *esq;
 }Arv;
 
+typedef struct morte{
+  char *info;
+  struct morte *dir;
+  struct morte *esq;
+}Mort;
+
 Arv *insert(char *c, int val, Arv* raiz)
 {
   if(raiz == NULL)
@@ -25,6 +31,23 @@ Arv *insert(char *c, int val, Arv* raiz)
   else
     raiz->dir = insert(c, val, raiz->dir);
    return raiz;
+}
+
+Mort *insert_mortos(char *c, Mort* raiz)
+{
+  if(raiz == NULL)
+  {
+    Mort*novo=(Mort*)malloc(sizeof(Mort));
+    novo->info = (char*)malloc((strlen(c)+1)*sizeof(char));
+    strcpy(novo->info,c);
+    novo->dir = novo->esq = NULL;
+    return novo;
+  }
+  if(strcmp(c,raiz->info) < 0)
+    raiz->esq = insert_mortos(c, raiz->esq);
+  else
+    raiz->dir = insert_mortos(c, raiz->dir);
+  return raiz;
 }
 
 void impr_ord(Arv * a)//infixa
@@ -54,6 +77,26 @@ Arv *busca(char *c, Arv*raiz)
   else
   {
     return busca(c,raiz->dir);
+  }
+}
+
+Mort *buscaM(char *c, Mort*raiz)
+{
+  if (raiz == NULL)
+  {
+    return NULL;
+  }
+  if (strcmp(c,raiz->info)==0)
+  {
+    return raiz;
+  }
+  if (strcmp(c,raiz->info) < 0)
+  {
+    return buscaM(c,raiz->esq);
+  }
+  else
+  {
+    return buscaM(c,raiz->dir);
   }
 }
 
@@ -108,25 +151,37 @@ Arv *remove_no(char *c, Arv* raiz)
 
 int main()
 {
-  char assas[100];
-  char vitma[100];
+  char assas[1000];
+  char vitma[1000];
   Arv* root = NULL;
+  Mort* mortos = NULL;
   int val = 1;
 
   printf("HALL OF MURDERERS\n");
   while (scanf("%s %s", assas, vitma) != EOF)
   {
-    Arv* no = busca(assas, root);
-    if (no == NULL) 
+    Arv* matou = busca(assas, root);    //busca se assas já existe na arvore
+    Mort* morreu = buscaM(vitma,mortos);//verifica se a vitma ja existe na arvore
+    Mort* verif = buscaM(assas, mortos);//verifica se o ass está na arovore dos mortos
+    Arv* vit = busca(vitma, root);      //
+
+    if (morreu == NULL)
     {
-      root = insert(assas, val, root);
+      mortos = insert_mortos(vitma,mortos);
     }
-    Arv* vit = busca(vitma, root);
+    if (verif == NULL) 
+    {
+      if (matou==NULL)
+      {
+        root = insert(assas, val, root);
+      }
+    }
+
     if (vit != NULL)
     {
       root = remove_no(vitma, root);
     }
-    impr_ord(root);
   }
+  impr_ord(root);
   return 0;
 }
